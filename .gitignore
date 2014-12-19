@@ -17,3 +17,5 @@ xcuserdata
 .svn
 CVS
 node_modules
+sandbox/index.compiled.js
+tests/index.compiled.js

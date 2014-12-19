@@ -1,7 +1,30 @@
 
 var expect = require("chai").expect;
-var _ = require('../lib/core');
+var imm = require('immutable'),
+  _ = require('../lib/core'),
+  truthy = _.truthy,
+  falsey = _.falsey,
+  not = _.not,
+  equals = _.equals,
+  eq = _.eq,
+  neq = _.neq,
+  add = _.add,
+  sub = _.sub,
+  mul = _.mul,
+  div = _.div,
+  mod = _.mod,
+  lt = _.lt,
+  gt = _.gt,
+  leq = _.leq,
+  geq = _.geq,
+  prn = _.prn,
+  str = _.str,
+  inc = _.inc,
+  keyword = _.keyword;
 
+function list(){
+  return imm.List.apply(arguments);
+}
 
 describe("sexpressions", function() {
 
@@ -161,7 +184,7 @@ describe("local bindings and lexical scope", function() {
 describe("truthiness", function() {
 
   it("should have truthy return false only for boolean false, nil (and js null and undefined)", function() {
-    
+
     expect(oi (truthy false)).to.eql(false);
     expect(oi (truthy nil)).to.eql(false);
     expect(oi (truthy (js null))).to.eql(false);
@@ -552,7 +575,7 @@ describe("apply", function() {
     
     expect(
       oi (apply list [1 2 3 4])
-      ).to.eql(_.list(1,2,3,4));
+      ).to.eql(imm.fromJS([1,2,3,4]));
   });
 
 });
