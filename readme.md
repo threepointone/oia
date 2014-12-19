@@ -8,13 +8,8 @@ oi
 
 oi(
 	lets [prn] (require '../lib/core')
-		(prn (.getIn {x 1 y [1 5 6]} ['y' 1]))  # 5
+		(prn (.getIn {x 1 y [1 5 6]} ['y' 1]))  
 		(.forEach [$ 1 4 6] prn)
-		# 1 0 [ 1, 4, 6 ]
-		# 4 1 [ 1, 4, 6 ]
-		# 6 2 [ 1, 4, 6 ]
-
-
 )
 
 ```
