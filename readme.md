@@ -1,9 +1,6 @@
-work in progress
-
-
 oi
 ---
-
+*pronounced 'eeya'*
 ```lisp
 oi(
   lets [prn] 
