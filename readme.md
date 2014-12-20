@@ -1,8 +1,8 @@
-work in progress
-
-
 oi
 ---
+
+*pronounced "eeya"*
+
 
 ```lisp
 
