@@ -15,14 +15,6 @@ macro _obj {
   rule { () } => {
   }
   
-  rule { ((keyword $k) $v) } => {
-    _sexpr $k: _sexpr $v
-  }
-
-  rule { ((keyword $k) $v $args ...) } => {
-    _sexpr $k: _sexpr $v, _obj ($args ...)
-  }
-
   rule { ($k $v) } => {
     _sexpr $k: _sexpr $v
   }
@@ -30,18 +22,6 @@ macro _obj {
   rule { ($k $v $args ...) } => {
     _sexpr $k: _sexpr $v, _obj ($args ...)
   }
-}
-
-
-macro _map {
-  rule { () } => {
-  }
-
-  rule { ($k $v) } => {
-    _arr _sexpr $k, _sexpr $v
-  }
-
-  
 }
 
 
@@ -565,12 +545,11 @@ macro _sexpr {
 
   
   rule { [$x ...] } => {
-    _sexpr (lets [list] (list $x ...))
+    
   }
 
   rule { {$x ...} } => {
-    require('oia').hash_map({_obj ($x ...)})
-    
+    _sexpr (lets [hash_map] (hash_map $x ...))
   }
 
   rule { $x } => { 
@@ -642,7 +621,7 @@ macro oia {
         content = [{
           token: {
             type: Token.Identifier,
-            value: 'keyword',
+            value: 'require("oia").keyword',
             lineNumber: inner[0].token.lineNumber,
             lineStart: inner[0].token.lineStart,
             range: inner[0].token.range},
@@ -758,4 +737,3 @@ macro oia {
 }
 
 export oia;
-
