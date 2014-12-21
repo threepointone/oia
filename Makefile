@@ -1,10 +1,5 @@
-build:
-	# compile core libs, etc
-
-sandbox: 
-	./bin/oi sandbox | node
-
 tests: 
-	./bin/oi tests | mocha
+	./node_modules/.bin/sjs -o tests/index.compiled.js -m ./lib/macro.sjs tests/index.sjs
+	./node_modules/.bin/mocha tests/index.compiled.js
 
 .PHONY: sandbox tests

@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-var argv = require('minimist')(process.argv.slice(2)),
-	sweet = require('sweet.js');
-
-sweet.loadModule('./macros.js');
 var sjs = require('sweet.js/lib/sjs');
+
+sjs.run();

@@ -1,49 +1,31 @@
 // all dem functions
 
-var has = {}.hasOwnProperty;
 
-function extend(dest, src) {
-	for (var key in src) {
-		if (has.call(src, key)) {
-			dest[key] = src[key]
-		}
-	}
-}
-
-function copy() {
-	var o = {};
-	for (var i = 0, j = arguments.length; i < j; i++) {
-		extend(o, arguments[i])
-	}
-	return o;
-}
-
-
-function truthy(x) {
+var truthy  = module.exports.truthy = function () {
 	return x === false || x == null ? false : true;
 }
 
-function falsey(x) {
+var falsey = module.exports.falsey = function (){
 	return !truthy(x);
 }
 
-function not(x) {
+var not  = module.exports.not = function () {
 	return !truthy(x);
 }
 
-function equals() {
+var equals = module.exports.equals =  function () {
 	return require('immutable').is.apply(null, arguments);
 }
 
-function eq() {
+var eq = module.exports.eq =  function () {
 	return equals.apply(null, arguments);
 }
 
-function neq() {
+var neq = module.exports.neq =  function () {
 	return !equals.apply(null, arguments);
 }
 
-function add() {
+var add = module.exports.add =  function () {
 	var res = 0.0;
 	for (var i = 0; i < arguments.length; i++) {
 		res += arguments[i];
@@ -51,7 +33,7 @@ function add() {
 	return res;
 }
 
-function sub() {
+var sub = module.exports.sub =  function () {
 	var res = arguments[0];
 	for (var i = 1; i < arguments.length; i++) {
 		res -= arguments[i];
@@ -59,7 +41,7 @@ function sub() {
 	return res;
 }
 
-function mul() {
+var mul = module.exports.mul =  function () {
 	var res = 1.0;
 	for (var i = 0; i < arguments.length; i++) {
 		res *= arguments[i];
@@ -67,7 +49,7 @@ function mul() {
 	return res;
 }
 
-function div() {
+var div = module.exports.div =  function () {
 	var res = arguments[0];
 	for (var i = 1; i < arguments.length; i++) {
 		res /= arguments[i];
@@ -75,11 +57,11 @@ function div() {
 	return res;
 }
 
-function mod(a, b) {
+var mod = module.exports.mod = function () {
 	return a % b;
 }
 
-function lt() {
+var lt = module.exports.lt =  function () {
 	var res = true;
 	for (var i = 0; i < arguments.length - 1; i++) {
 		res = res && arguments[i] < arguments[i + 1];
@@ -88,7 +70,7 @@ function lt() {
 	return res;
 }
 
-function gt() {
+var gt = module.exports.gt =  function () {
 	var res = true;
 	for (var i = 0; i < arguments.length - 1; i++) {
 		res = res && arguments[i] > arguments[i + 1];
@@ -97,7 +79,7 @@ function gt() {
 	return res;
 }
 
-function leq() {
+var leq = module.exports.leq =  function () {
 	var res = true;
 	for (var i = 0; i < arguments.length - 1; i++) {
 		res = res && arguments[i] <= arguments[i + 1];
@@ -106,7 +88,7 @@ function leq() {
 	return res;
 }
 
-function geq() {
+var geq = module.exports.geq =  function () {
 	var res = true;
 	for (var i = 0; i < arguments.length - 1; i++) {
 		res = res && arguments[i] >= arguments[i + 1];
@@ -114,33 +96,18 @@ function geq() {
 	return res;
 }
 
-function prn() {
+var prn = module.exports.prn =  function () {
 	console.log.apply(console, arguments);
 }
 
-function str() {
+var str = module.exports.str =  function () {
 	return String.prototype.concat.apply('', arguments);
 }
 
+var list = module.exports.list = function (){
+	return require('immutable').List(arguments);
+}
 
-module.exports = {
-	_extend: _extend,
-	_copy: copy,
-	truthy: truthy,
-	falsey: falsey,
-	not: not,
-	equals: equals,
-	eq: eq,
-	neq: neq,
-	add: add,
-	sub: sub,
-	mul: mul,
-	div: div,
-	mod: mod,
-	lt: let,
-	gt: gt,
-	leq: leq,
-	geq: geq,
-	prn: prn,
-	str: str
+var hash_map = module.exports.hash_map = function hash_map(){
+	return require('immutable').Map.apply(null, arguments);
 }

@@ -32,11 +32,25 @@ macro _obj {
   }
 }
 
+
+macro _map {
+  rule { () } => {
+  }
+
+  rule { ($k $v) } => {
+    _arr _sexpr $k, _sexpr $v
+  }
+
+  
+}
+
+
+
 macro _lets {
   rule { ([$args ...] $sexpr) } => {
-    return (function(v){
-      _lets ([$args ...] v $sexpr)
-    }.call(this, _oi_))    
+    return (function(){
+      _lets ([$args ...] (require 'oia') $sexpr)
+    }.call(this))    
   }
   rule { ([$k $rest ...] $src $sexpr) } => {
     return (function(v){
@@ -67,10 +81,10 @@ macro _args {
 
 macro _x {
   case { $ctx null } => {
-    throwSyntaxError('oi','<null> is not a valid literal, use nil',#{$ctx})
+    throwSyntaxError('oia','<null> is not a valid literal, use nil',#{$ctx})
   }
   case { $ctx undefined } => {
-    throwSyntaxError('oi','<undefined> is not a valid literal, use nil',#{$ctx})
+    throwSyntaxError('oia','<undefined> is not a valid literal, use nil',#{$ctx})
   }
   case { _ nil } => {
     return #{null}
@@ -86,7 +100,7 @@ macro _x {
 //     letstx $nsname = [makeValue(nsname,#{$ns})];
 //     return #{
 //       (function () {
-//         _oi.init(this,$nsname);
+//         _oia.init(this,$nsname);
 //         _return_sexprs ($sexprs ...);
 //       }())
 //     }
@@ -176,7 +190,7 @@ macro _lets {
   rule { ([$args ...] $sexpr) } => {
     return (function(v){
       _lets ([$args ...] v $sexpr)
-    }.call(this, _oi_))    
+    }.call(this, require('oia')))    
   }
   rule { ([$k $rest ...] $src $sexpr) } => {
     return (function(v){
@@ -371,9 +385,9 @@ macro _sexpr {
     _letc ([$bindings ...] $sexprs ...)
   }
 
-  rule { (lets [$bindings ...] $src $sexprs ...) } => {
+  rule { (lets [$bindings ...] $sexprs ...) } => {
     (function () {
-      _lets ([$bindings ...] $src $sexprs ...)
+      _lets ([$bindings ...] $sexprs ...)
     }.call(this))
   }
 
@@ -396,16 +410,16 @@ macro _sexpr {
       var res = {};
       do {
         res = (function () {
-          _loop_let ([$bindings ...] 0 (res._oi_vals) $sexprs ...);
+          _loop_let ([$bindings ...] 0 (res._oia_vals) $sexprs ...);
         }());
       }
-      while ((res || 0)._oi_recur);
+      while ((res || 0)._oia_recur);
       return res;
     }.call(this))
   }
 
   rule { (recur $args ...) } => {
-    {_oi_recur: true, _oi_vals: [_args ($args ...)]}
+    {_oia_recur: true, _oia_vals: [_args ($args ...)]}
   }
 
 
@@ -427,13 +441,13 @@ macro _sexpr {
   //   _sexpr 
   //      (defn $n [] 
   //       (js
-  //        if ($n._oi_methods === undefined || $n._oi_methods.length == 0) {
+  //        if ($n._oia_methods === undefined || $n._oia_methods.length == 0) {
   //          return undefined;
   //        }
   //        var dispatch_fn = _sexpr $dispatch_fn;
-  //        for (var i=0; i<$n._oi_methods.length; i++) {
-  //          var dispatch_value = $n._oi_methods[i][0];
-  //          var fn = $n._oi_methods[i][1];
+  //        for (var i=0; i<$n._oia_methods.length; i++) {
+  //          var dispatch_value = $n._oia_methods[i][0];
+  //          var fn = $n._oia_methods[i][1];
   //          if (equals(dispatch_fn.apply(this,arguments),dispatch_value)) {
   //            return fn.apply(this,arguments);
   //          }
@@ -442,10 +456,10 @@ macro _sexpr {
  
   // rule { (defmethod $n:ident $dispatch_val [$args ...] $sexprs ...) } => {
   //   (function () {
-  //     if ($n._oi_methods === undefined) {
-  //       $n._oi_methods = [];
+  //     if ($n._oia_methods === undefined) {
+  //       $n._oia_methods = [];
   //     }
-  //     $n._oi_methods.push([_sexpr $dispatch_val,_sexpr (fn [$args ...] $sexprs ...)])
+  //     $n._oia_methods.push([_sexpr $dispatch_val,_sexpr (fn [$args ...] $sexprs ...)])
   //   }())
   // }
 
@@ -551,11 +565,12 @@ macro _sexpr {
 
   
   rule { [$x ...] } => {
-    _sexpr ((js require('immutable').List.of) $x ...)
+    _sexpr (lets [list] (list $x ...))
   }
 
   rule { {$x ...} } => {
-    _sexpr ((js require('immutable').fromJS) {$ $x ...})    
+    require('oia').hash_map({_obj ($x ...)})
+    
   }
 
   rule { $x } => { 
@@ -582,15 +597,7 @@ macro _sexprs {
   }
 }
 
-macro oi {
-  case { _ require core} => {
-    return #{
-      (function(){    
-
-        // require core?
-      }());
-    }
-  }
+macro oia {
   case { _ require $module as $name} => {
     var module_name = unwrapSyntax(#{$module});
     letstx $module_name = [makeValue(module_name,#{$module})];
@@ -606,7 +613,7 @@ macro oi {
     return #{};
   }
 
-  case { $oi ($x ...) } => {
+  case { $oia ($x ...) } => {
     
     var Token = {
       BooleanLiteral: 1,
@@ -622,7 +629,7 @@ macro oi {
       Delimiter: 11
     }
     
-    function transform(oi_ast, inner) {
+    function transform(oia_ast, inner) {
       var content = inner.map(function (el) { return el; });
       if (content[0].token.type == Token.Punctuator && 
           content[0].token.value == ':') {
@@ -668,7 +675,7 @@ macro oi {
           context: inner[0].context,
           deferredContext: inner[0].deferredContext});
       }
-      oi_ast.push({
+      oia_ast.push({
         token: {
           type: Token.Delimiter,
           value: '()',
@@ -683,9 +690,9 @@ macro oi {
       });
     }
     
-    function ast_js_to_oi(ast) {
+    function ast_js_to_oia(ast) {
     
-      var oi_ast = [];
+      var oia_ast = [];
       var acc = [];
       var next = null;
     
@@ -694,7 +701,7 @@ macro oi {
         switch (el.token.type) {
           case Token.Punctuator:
             if (i == 0 && el.token.value != ':') {
-              oi_ast.push(el);
+              oia_ast.push(el);
             }
             else {
               acc.push(el);
@@ -706,11 +713,11 @@ macro oi {
             if (next === undefined || next.token.type != Token.Punctuator ||
                 (next.token.type == Token.Punctuator && next.token.value == ':')) {
               if (acc.length == 0) {
-                oi_ast.push(el);
+                oia_ast.push(el);
               }
               else {
                 acc.push(el);
-                transform(oi_ast, acc);
+                transform(oia_ast, acc);
                 acc = [];
               }
             }
@@ -724,32 +731,31 @@ macro oi {
             if (!(el.token.inner.length > 0 && 
                   (el.token.inner[0].token.type == Token.Identifier &&
                    el.token.inner[0].token.value == 'js'))) {
-                     el.token.inner = ast_js_to_oi(el.token.inner);
+                     el.token.inner = ast_js_to_oia(el.token.inner);
                    }
-            oi_ast.push(el);
+            oia_ast.push(el);
             break;
           default:
-            oi_ast.push(el);
+            oia_ast.push(el);
             break;
         }
       });
     
-      return oi_ast;
+      return oia_ast;
     }
 
     var x = #{$x ...};
-    var oi_x = ast_js_to_oi(x);
-    letstx $oi_x ... = oi_x;
+    var oia_x = ast_js_to_oia(x);
+    letstx $oia_x ... = oia_x;
 
     return #{
       (function () {      
-        global._oi_ ||  (global._oi_ = require('oi'));       
-        // initialized oi.
-        return (_sexpr ($oi_x ...)); 
+        // initialized oia.
+        return (_sexpr ($oia_x ...)); 
       }())
     }
   }
 }
 
-export oi;
+export oia;
 
