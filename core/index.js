@@ -1,5 +1,6 @@
 // all dem functions
 
+//boolean
 
 var truthy  = module.exports.truthy = function () {
 	return x === false || x == null ? false : true;
@@ -24,6 +25,8 @@ var eq = module.exports.eq =  function () {
 var neq = module.exports.neq =  function () {
 	return !equals.apply(null, arguments);
 }
+
+// arithmetic
 
 var add = module.exports.add =  function () {
 	var res = 0.0;
@@ -61,6 +64,8 @@ var mod = module.exports.mod = function () {
 	return a % b;
 }
 
+// comparisons
+
 var lt = module.exports.lt =  function () {
 	var res = true;
 	for (var i = 0; i < arguments.length - 1; i++) {
@@ -96,16 +101,21 @@ var geq = module.exports.geq =  function () {
 	return res;
 }
 
+// debug
+
 var prn = module.exports.prn =  function () {
 	console.log.apply(console, arguments);
 }
 
+// string concatenation
 var str = module.exports.str =  function () {
 	return String.prototype.concat.apply('', arguments);
 }
 
+// data structures
+
 var list = module.exports.list = function (){
-	return require('immutable').List(arguments);
+	return require('immutable').List(arguments);	
 }
 
 var hash_map = module.exports.hash_map = function hash_map(){
