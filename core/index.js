@@ -118,10 +118,10 @@ var list = module.exports.list = function() {
 	return require('immutable').List(arguments);
 }
 
-var hash_map = module.exports.hash_map = function hash_map() {
+var hash_map = module.exports.hash_map = function() {
 	var arr = [];
-	for(var i=0,j=arguments.length; i<j;i+=2){
-		arr.push([arguments[i], arguments[i+1]])
+	for (var i = 0, j = arguments.length; i < j; i += 2) {
+		arr.push([arguments[i], arguments[i + 1]])
 	}
 	return require('immutable').Map(arr);
 }
@@ -131,12 +131,12 @@ var keys = {};
 var keyword = module.exports.keyword = function(str) {
 	if (!keys[str]) {
 		keys[str] = function(o) {
-			return o.get? o.get(keys[str]) : o[str];
+			return o.get ? o.get(keys[str]) : o[str];
 		}
-		keys[str].toString = function(){
+		keys[str].toString = function() {
 			return str;
 		}
-		keys[str].valueOf = function(){
+		keys[str].valueOf = function() {
 			return ':' + str;
 		}
 

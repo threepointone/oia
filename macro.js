@@ -14,6 +14,14 @@ macro _arr {
 macro _obj {
   rule { () } => {
   }
+
+  rule { ((keyword $k) $v) } => {
+    _sexpr $k: _sexpr $v
+  }
+
+  rule { ((keyword $k) $v $args ...) } => {
+    _sexpr $k: _sexpr $v, _obj ($args ...)
+  }
   
   rule { ($k $v) } => {
     _sexpr $k: _sexpr $v
@@ -621,7 +629,7 @@ macro oia {
         content = [{
           token: {
             type: Token.Identifier,
-            value: 'require("oia").keyword',
+            value: 'keyword',
             lineNumber: inner[0].token.lineNumber,
             lineStart: inner[0].token.lineStart,
             range: inner[0].token.range},
@@ -727,13 +735,48 @@ macro oia {
     var oia_x = ast_js_to_oia(x);
     letstx $oia_x ... = oia_x;
 
+    
+
+    var core = [
+      'truthy', 'falsey', 'not', 
+      'equals', 'eq', 'neq', 
+      'add', 'sub', 'mul', 'div', 'mod', 
+      'lt', 'gt', 'leq', 'geq', 
+      'prn', 'str', 
+      'list', 'hash_map', 'keyword'
+    ];
+    
+    letstx $core = [makeIdent('_', #{$oia})];
+    
+    var coreArr1 = [], coreArr2 = [];
+    core.forEach(function(f, i){
+      var ident = makeIdent(f, #{$oia})
+      coreArr1.push(ident);
+      coreArr2.push(makeIdent('_', #{$oia}));
+      coreArr2.push(makePunc('.', #{$oia}));
+      coreArr2.push(ident);
+      (i!=core.length-1) && coreArr1.push(makePunc(',', #{$oia}));
+      (i!=core.length-1) && coreArr2.push(makePunc(',', #{$oia}));
+    });
+    
+    letstx $core1 ... = coreArr1;
+    letstx $core2 ... = coreArr2;
+    
+
     return #{
-      (function () {      
-        // initialized oia.
-        return (_sexpr ($oia_x ...)); 
+      (function () {
+          var $core = require('oia');
+          return (function($core1 ...){
+            // initialized oia.
+            return (_sexpr ($oia_x ...));   
+          }($core2 ...));
+        
       }())
     }
   }
 }
 
+
 export oia;
+
+
