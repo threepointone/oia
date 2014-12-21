@@ -32,6 +32,26 @@ macro _obj {
   }
 }
 
+macro _lets {
+  rule { ([$args ...] $sexpr) } => {
+    return (function(v){
+      _lets ([$args ...] v $sexpr)
+    }.call(this, _oi_))    
+  }
+  rule { ([$k $rest ...] $src $sexpr) } => {
+    return (function(v){
+      var $k = v.$k;
+      _lets ([$rest ...] v $sexpr)
+    }.call(this, _sexpr $src))
+    
+  }
+  rule { ([] $src $sexpr) } => {
+    _return_sexprs ($sexpr)
+  }
+}
+
+
+
 macro _args {
   rule { () } => {
   }
@@ -291,7 +311,7 @@ macro _sexpr {
 
   rule { (if $cond $sthen $selse) } => {
     (function () {
-      if (_sexpr ((js _oi_.truthy) $cond)) {
+      if (_sexpr (truthy $cond)) {
         return _sexpr $sthen;
       }
       return _sexpr $selse;
@@ -304,7 +324,7 @@ macro _sexpr {
 
   rule { (when $cond $sthen) } => {
     (function () {
-      if (_sexpr ((js _oi_.truthy) $cond)) {
+      if (_sexpr (truthy $cond)) {
         return _sexpr $sthen;
       }
       return;
@@ -317,7 +337,7 @@ macro _sexpr {
 
   rule { (cond $cond1 $body1 $rest ...) } => {
     (function () {
-      if (_sexpr ((js _oi_.truthy) $cond1)) {
+      if (_sexpr (truthy $cond1)) {
         return _sexpr $body1;
       }
       return _sexpr (cond $rest ...);
@@ -328,17 +348,17 @@ macro _sexpr {
   }
 
   rule { (and $sexpr) } => {
-    _sexpr ((js _oi_.truthy) $sexpr)
+    _sexpr (truthy $sexpr)
   }
   rule { (and $sexpr $sexprs ...) } => {
-    _sexpr ((js _oi_.truthy) $sexpr) && _sexpr (and $sexprs ...)
+    _sexpr (truthy $sexpr) && _sexpr (and $sexprs ...)
   }
 
   rule { (or $sexpr) } => {
-    _sexpr ((js _oi_.truthy) $sexpr)
+    _sexpr (truthy $sexpr)
   }
   rule { (or $sexpr $sexprs ...) } => {
-    _sexpr ((js _oi_.truthy) $sexpr) || _sexpr (or $sexprs ...)
+    _sexpr (truthy $sexpr) || _sexpr (or $sexprs ...)
   }
 
   rule { ($[let] [$bindings ...] $sexprs ...) } => {
@@ -365,7 +385,7 @@ macro _sexpr {
 
   rule { (while $cond $sexpr) } => {
     (function () {
-      while (_sexpr ((js _oi_.truthy) $cond)) {
+      while (_sexpr (truthy $cond)) {
         _sexpr $sexpr;
       }
     }.call(this))
@@ -723,7 +743,7 @@ macro oi {
 
     return #{
       (function () {      
-        global._oi_ ||  (global._oi_ = require('../lib/core.js'));       
+        global._oi_ ||  (global._oi_ = require('oi'));       
         // initialized oi.
         return (_sexpr ($oi_x ...)); 
       }())
