@@ -20,7 +20,7 @@ kinda works
 - lexical scoping
 - destructuring 
 - :keywords
-- transducers
+- transducers (via transducers.js)
 
 
 in progress 
