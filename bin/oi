@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-var sjs = require('sweet.js/lib/sjs');
-
-sjs.run();

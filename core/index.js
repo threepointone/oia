@@ -25,6 +25,20 @@ var Map = require('immutable').Map;
 var is = require('immutable').is;
 
 
+var t = require("transducers.js");
+
+List.prototype[t.protocols.transformer] = {
+  init: function () {
+    return List().asMutable();
+  },
+  result: function (list) {
+    return list.asImmutable();
+  },
+  step: function (list, x) {
+    return list.push(x);
+  }
+};
+
 var has = {}.hasOwnProperty;
 
 function extend(dest, src) {
@@ -91,7 +105,7 @@ function div() {
   }
   return res;
 }
-function mod() {
+function mod(a, b) {
   return a % b;
 }
 
@@ -171,4 +185,4 @@ function keyword(str) {
 
 // transducers? capital idea.
 
-extend(exports, require("transducers-js"));
+extend(exports, t);

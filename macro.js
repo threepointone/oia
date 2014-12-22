@@ -746,11 +746,11 @@ macro oia {
       'list', 'hash_map', 'keyword',
 
       // transducers
-      'cat', 'comp', 'complement', 'completing', 'drop', 'dropWhile', 'ensureReduced', 
-      'filter', 'first', 'identiy', 'into', 'isReduced', 'keep', 'keepIndexed', 
-      'map', 'mapcat', 'partitionAll', 'partitionBy', 'preservingReduced', 
-      'reduce', 'reduced', 'remove', 'take', 'takeNth', 'takeWhile', 
-      'toFn', 'transduce', 'unreduced', 'wrap'      
+      'reduce', 'transformer', 'Reduced', 'iterator', 'push', 'merge', 'transduce', 
+      'seq', 'toArray', 'toObj', 'toIter', 'into', 'compose', 'map', 'filter', 
+      'remove', 'cat', 'mapcat', 'keep', 'dedupe', 'take', 'takeWhile', 'drop', 
+      'dropWhile', 'partition', 'partitionBy', 'range', 
+      'protocols', 'LazyTransformer' 
     ];
 
     

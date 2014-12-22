@@ -4,6 +4,20 @@
 
 import {List, Map, is} from 'immutable';
 
+var t = require('transducers.js');
+
+List.prototype[t.protocols.transformer] = {
+  init: function() {
+    return List().asMutable();
+  },
+  result: function(list) {
+    return list.asImmutable();
+  },
+  step: function(list, x) {
+    return list.push(x);
+  }
+};
+
 var has = {}.hasOwnProperty;
 
 function extend(dest, src) {
@@ -71,7 +85,7 @@ export function div() {
 	}
 	return res;
 }
-export function mod() {
+export function mod(a, b) {
 	return a % b;
 }
 
@@ -152,4 +166,4 @@ export function keyword(str) {
 
 // transducers? capital idea.
 
-extend(exports, require('transducers-js'));
+extend(exports, t);
