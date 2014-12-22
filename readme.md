@@ -1,9 +1,8 @@
-oi
+oia
 ---
 *pronounced 'eeya'*
 ```lisp
-oi(
-  lets [prn] 
+oia(
     (do
       (prn (.getIn {:x 1 'y' [1 5 6]} ['y' 1]))
       (.forEach [1 4 6 8] prn)))
@@ -17,6 +16,7 @@ kinda works
 - immutable sequences, lists, maps, sets, cursors (via immutable.js)
 - lexical scoping
 - destructuring 
+- :keywords
 
 in progress 
 
@@ -27,7 +27,7 @@ in progress
 
 future
 
-- :keywords
+
 - multimethods
 - namespaces
 - macros 

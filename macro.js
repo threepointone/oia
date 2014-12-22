@@ -42,7 +42,7 @@ macro _lets {
   }
   rule { ([$k $rest ...] $src $sexpr) } => {
     return (function(v){
-      var $k = v.$k;
+      var $k = v.$k; // todo - get
       _lets ([$rest ...] v $sexpr)
     }.call(this, _sexpr $src))
     
@@ -553,11 +553,11 @@ macro _sexpr {
 
   
   rule { [$x ...] } => {
-    
+    _sexpr (lets [list] (require 'oia') (list $x ...))  
   }
 
   rule { {$x ...} } => {
-    _sexpr (lets [hash_map] (hash_map $x ...))
+    _sexpr (lets [hash_map] (require 'oia') (hash_map $x ...))
   }
 
   rule { $x } => { 
@@ -743,34 +743,38 @@ macro oia {
       'add', 'sub', 'mul', 'div', 'mod', 
       'lt', 'gt', 'leq', 'geq', 
       'prn', 'str', 
-      'list', 'hash_map', 'keyword'
+      'list', 'hash_map', 'keyword',
+
+      // transducers
+      'cat', 'comp', 'complement', 'completing', 'drop', 'dropWhile', 'ensureReduced', 
+      'filter', 'first', 'identiy', 'into', 'isReduced', 'keep', 'keepIndexed', 
+      'map', 'mapcat', 'partitionAll', 'partitionBy', 'preservingReduced', 
+      'reduce', 'reduced', 'remove', 'take', 'takeNth', 'takeWhile', 
+      'toFn', 'transduce', 'unreduced', 'wrap'      
     ];
+
     
     letstx $core = [makeIdent('_', #{$oia})];
-    
-    var coreArr1 = [], coreArr2 = [];
+
+    var idents = [], refs = [];
     core.forEach(function(f, i){
-      var ident = makeIdent(f, #{$oia})
-      coreArr1.push(ident);
-      coreArr2.push(makeIdent('_', #{$oia}));
-      coreArr2.push(makePunc('.', #{$oia}));
-      coreArr2.push(ident);
-      (i!=core.length-1) && coreArr1.push(makePunc(',', #{$oia}));
-      (i!=core.length-1) && coreArr2.push(makePunc(',', #{$oia}));
+      idents = idents.concat(makeIdent(f, #{$oia}));
+      refs = refs.concat(makeIdent('_', #{$oia})).concat(makePunc('.', #{$oia})).concat(makeIdent(f, #{$oia}));
+      
+      (i!=core.length-1) && idents.push(makePunc(',', #{$oia})) && refs.push(makePunc(',', #{$oia}));
     });
     
-    letstx $core1 ... = coreArr1;
-    letstx $core2 ... = coreArr2;
+    letstx $idents ... = idents;
+    letstx $refs ... = refs;
     
 
     return #{
       (function () {
           var $core = require('oia');
-          return (function($core1 ...){
+          return (function($idents ...){
             // initialized oia.
             return (_sexpr ($oia_x ...));   
-          }($core2 ...));
-        
+          }($refs ...));        
       }())
     }
   }

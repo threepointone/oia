@@ -1,26 +1,6 @@
 
 var expect = require("chai").expect;
-var imm = require('immutable'),
-  _ = require('../lib/core'),
-  truthy = _.truthy,
-  falsey = _.falsey,
-  not = _.not,
-  equals = _.equals,
-  eq = _.eq,
-  neq = _.neq,
-  add = _.add,
-  sub = _.sub,
-  mul = _.mul,
-  div = _.div,
-  mod = _.mod,
-  lt = _.lt,
-  gt = _.gt,
-  leq = _.leq,
-  geq = _.geq,
-  prn = _.prn,
-  str = _.str,
-  inc = _.inc,
-  keyword = _.keyword;
+var imm = require('immutable');
 
 function list(){
   return imm.List.apply(arguments);

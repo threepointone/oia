@@ -16,9 +16,11 @@
   "dependencies": {
     "immutable": "^3.4.0",
     "minimist": "^1.1.0",
-    "sweet.js": "^0.7.2"
+    "sweet.js": "^0.7.2",
+    "transducers-js": "^0.4.135"
   },
   "devDependencies": {
+    "6to5": "^1.15.0",
     "chai": "^1.10.0",
     "mocha": "^2.0.1"
   }
