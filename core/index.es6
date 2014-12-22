@@ -4,9 +4,9 @@
 
 import {List, Map, is} from 'immutable';
 
-var t = require('transducers.js');
+var transducers = require('transducers.js');
 
-List.prototype[t.protocols.transformer] = {
+List.prototype[transducers.protocols.transformer] = {
   init: function() {
     return List().asMutable();
   },
@@ -155,9 +155,14 @@ var _keywords_ = {};
 
 export function keyword(str) {
 	if (!_keywords_[str]) {
-		_keywords_[str] = o => o.get ? o.get(_keywords_[str]) : o[str]
-		_keywords_[str].toString = () => str;
-		_keywords_[str].valueOf = () => ('::' + str);
+		
+		_keywords_[str] = o => !o ? _keywords_[str] : (o.get ? o.get(_keywords_[str]) : o[str])
+		
+		extend(_keywords_[str], {
+			toString : () => str,
+			valueOf : () => ('::' + str),
+			isKeyword : true
+		});		
 	}
 	return _keywords_[str];
 }
@@ -166,4 +171,28 @@ export function keyword(str) {
 
 // transducers? capital idea.
 
-extend(exports, t);
+extend(exports, transducers);
+
+
+// some common stuff
+
+export function inc(x){
+	return x + 1;
+}
+
+export function dec(x){
+	return x - 1;
+}
+
+export function first(x){
+	return x.first? x.first(): x[0];
+}
+
+var slice = [].slice;
+export function rest(x){
+	return x.rest? x.rest() : slice.call(x, 1);
+}
+
+export function get(v, k){
+	return v.get? v.get(k) : v[k.isKeyword? k.toString(): k];
+}

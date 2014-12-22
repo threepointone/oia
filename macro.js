@@ -137,22 +137,22 @@ macro _destr {
   }
 
   rule { ([$a], $v) } => {
-    var f = _sexpr(first $v);
+    var f = _sexpr(lets[first](first $v));
     _destr($a, f)
   }
   rule { ([$a $b ...], $v) } => {
-    var f = _sexpr(first $v);
+    var f = _sexpr(lets [first] (first $v));
     _destr($a, f)
-    var r = _sexpr(rest $v)
+    var r = _sexpr(lets[rest](rest $v))
     _destr([$b ...], r)
   }
 
   rule { ({$a $b}, $v) } => {
-    var f = _sexpr(get $v $b);
+    var f = _sexpr(lets [get] (get $v $b));
     _destr($a, f)
   }
   rule { ({$a $b $c $d ...}, $v) } => {
-    var f = _sexpr(get $v $b);
+    var f = _sexpr(lets [get] (get $v $b));
     _destr($a, f)
     _destr({$c $d ...}, $v)
   }
@@ -311,9 +311,21 @@ macro _sexpr {
     }.call(this))
   }
 
+  rule { (gn [$args ...] $sexprs ...) } => {
+    function* ($args(,)...){
+      _return_sexprs ($sexprs ...)
+    }
+  }
+
+  rule { (yield $sexprs ...) } => {
+    yield ($sexprs ...)
+  }
+
+
+
   rule { (if $cond $sthen $selse) } => {
     (function () {
-      if (_sexpr (truthy $cond)) {
+      if (_sexpr (lets [truthy] (truthy $cond))) {
         return _sexpr $sthen;
       }
       return _sexpr $selse;
@@ -321,12 +333,12 @@ macro _sexpr {
   }
 
   rule { (if_not $cond $sthen $selse) } => {
-    _sexpr (if (not $cond) $sthen $selse)
+    _sexpr (lets [not] (if (not $cond) $sthen $selse))
   }
 
   rule { (when $cond $sthen) } => {
     (function () {
-      if (_sexpr (truthy $cond)) {
+      if (_sexpr (lets [truthy] (truthy $cond))) {
         return _sexpr $sthen;
       }
       return;
@@ -334,12 +346,12 @@ macro _sexpr {
   }
 
   rule { (when_not $cond $sthen) } => {
-    _sexpr (when (not $cond) $sthen)
+    _sexpr (lets [not] (when (not $cond) $sthen))
   }
 
   rule { (cond $cond1 $body1 $rest ...) } => {
     (function () {
-      if (_sexpr (truthy $cond1)) {
+      if (_sexpr (lets [truthy] (truthy $cond1))) {
         return _sexpr $body1;
       }
       return _sexpr (cond $rest ...);
@@ -350,17 +362,17 @@ macro _sexpr {
   }
 
   rule { (and $sexpr) } => {
-    _sexpr (truthy $sexpr)
+    _sexpr (lets [truthy] (truthy $sexpr))
   }
   rule { (and $sexpr $sexprs ...) } => {
-    _sexpr (truthy $sexpr) && _sexpr (and $sexprs ...)
+    _sexpr (lets [truthy] (truthy $sexpr)) && _sexpr (and $sexprs ...)
   }
 
   rule { (or $sexpr) } => {
-    _sexpr (truthy $sexpr)
+    _sexpr (lets [truthy] (truthy $sexpr))
   }
   rule { (or $sexpr $sexprs ...) } => {
-    _sexpr (truthy $sexpr) || _sexpr (or $sexprs ...)
+    _sexpr (lets [truthy] (truthy $sexpr)) || _sexpr (or $sexprs ...)
   }
 
   rule { ($[let] [$bindings ...] $sexprs ...) } => {
@@ -387,7 +399,7 @@ macro _sexpr {
 
   rule { (while $cond $sexpr) } => {
     (function () {
-      while (_sexpr (truthy $cond)) {
+      while (_sexpr (lets [truthy] (truthy $cond))) {
         _sexpr $sexpr;
       }
     }.call(this))
@@ -414,11 +426,11 @@ macro _sexpr {
   // TODO: docstring
 
   rule { (apply $fn $obj $args) } => {
-    _sexpr $fn.apply($obj,_sexpr (clj_to_js $args))
+    _sexpr $fn.apply($obj,_sexpr (.toJS $args))
   }
 
   rule { (apply $fn $args) } => {
-    _sexpr $fn.apply(this,_sexpr (clj_to_js $args))
+    _sexpr $fn.apply(this,_sexpr (.toJS $args))
   }
 
   rule { (bind $obj $fn) } => {
@@ -745,12 +757,14 @@ macro oia {
       'prn', 'str', 
       'list', 'hash_map', 'keyword',
 
+      'inc', 'dec', 'get', 'first', 'rest',
+
       // transducers
       'reduce', 'transformer', 'Reduced', 'iterator', 'push', 'merge', 'transduce', 
       'seq', 'toArray', 'toObj', 'toIter', 'into', 'compose', 'map', 'filter', 
       'remove', 'cat', 'mapcat', 'keep', 'dedupe', 'take', 'takeWhile', 'drop', 
       'dropWhile', 'partition', 'partitionBy', 'range', 
-      'protocols', 'LazyTransformer' 
+      'protocols', 'LazyTransformer'
     ];
 
     

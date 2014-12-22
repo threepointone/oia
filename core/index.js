@@ -20,14 +20,19 @@ exports.str = str;
 exports.list = list;
 exports.hash_map = hash_map;
 exports.keyword = keyword;
+exports.inc = inc;
+exports.dec = dec;
+exports.first = first;
+exports.rest = rest;
+exports.get = get;
 var List = require('immutable').List;
 var Map = require('immutable').Map;
 var is = require('immutable').is;
 
 
-var t = require("transducers.js");
+var transducers = require("transducers.js");
 
-List.prototype[t.protocols.transformer] = {
+List.prototype[transducers.protocols.transformer] = {
   init: function () {
     return List().asMutable();
   },
@@ -169,14 +174,18 @@ var _keywords_ = {};
 function keyword(str) {
   if (!_keywords_[str]) {
     _keywords_[str] = function (o) {
-      return o.get ? o.get(_keywords_[str]) : o[str];
+      return !o ? _keywords_[str] : (o.get ? o.get(_keywords_[str]) : o[str]);
     };
-    _keywords_[str].toString = function () {
-      return str;
-    };
-    _keywords_[str].valueOf = function () {
-      return ("::" + str);
-    };
+
+    extend(_keywords_[str], {
+      toString: function () {
+        return str;
+      },
+      valueOf: function () {
+        return ("::" + str);
+      },
+      isKeyword: true
+    });
   }
   return _keywords_[str];
 }
@@ -185,4 +194,26 @@ function keyword(str) {
 
 // transducers? capital idea.
 
-extend(exports, t);
+extend(exports, transducers);
+
+
+function inc(x) {
+  return x + 1;
+}
+
+function dec(x) {
+  return x - 1;
+}
+
+function first(x) {
+  return x.first ? x.first() : x[0];
+}
+
+var slice = [].slice;
+function rest(x) {
+  return x.rest ? x.rest() : slice.call(x, 1);
+}
+
+function get(v, k) {
+  return v.get ? v.get(k) : v[k.isKeyword ? k.toString() : k];
+}

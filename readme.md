@@ -11,9 +11,16 @@ oia(
   (prn (seq [1 2 3 4 5] xf)))
 ```
 
+why? 
+
+- js interop
+- immutable + transducers + channels 
+- ui components
+- tooling
+
 kinda works
 
-- it's a lisp
+- lisp-ish
 - forked from [ki](http://ki-lang.org)
 - js interop / macros (via sweet.js)
 - immutable sequences, lists, maps, sets, cursors (via immutable.js)
@@ -29,13 +36,14 @@ in progress
 - exception handling 
 - loop /recur
 - tooling: source maps / browserify / node 
+- channels
+- react macros 
 
 future
 
-
 - multimethods
 - namespaces
-- macros 
-- channels
+- macros
 - pattern matching 
 - core library?
+
