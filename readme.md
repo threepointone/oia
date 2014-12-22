@@ -2,10 +2,13 @@ oia
 ---
 *pronounced 'eeya'*
 ```lisp
-oia(
-    (do
-      (prn (.getIn {:x 1 'y' [1 5 6]} ['y' 1]))
-      (.forEach [1 4 6 8] prn)))
+oia( 
+  let [xf 
+    (compose 
+      (map (fn [x] (mul x 3))) 
+      (filter (fn [x] (eq 0 (mod x 2)))) 
+      (take 10))]
+  (prn (seq [1 2 3 4 5] xf)))
 ```
 
 kinda works
