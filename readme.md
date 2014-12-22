@@ -25,16 +25,16 @@ kinda works
 - js interop / macros (via sweet.js)
 - immutable sequences, lists, maps, sets, cursors (via immutable.js)
 - lexical scoping
+- loop /recur
 - destructuring 
 - :keywords
 - transducers (via transducers.js)
-
+- generators(!)
 
 in progress 
 
 - chaining 
 - exception handling 
-- loop /recur
 - tooling: source maps / browserify / node 
 - channels
 - react macros 
@@ -46,4 +46,10 @@ future
 - macros
 - pattern matching 
 - core library?
+
+tests
+
+- 45 passing 
+- 2 pending
+- 7 failing
 
