@@ -20,6 +20,8 @@ kinda works
 - lexical scoping
 - destructuring 
 - :keywords
+- transducers
+
 
 in progress 
 
@@ -36,5 +38,4 @@ future
 - macros 
 - channels
 - pattern matching 
-- transducers
 - core library?
