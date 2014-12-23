@@ -30,11 +30,11 @@ kinda works
 - :keywords
 - transducers (via transducers.js)
 - generators(!)
+- exception handling 
+- chaining 
 
 in progress 
 
-- chaining 
-- exception handling 
 - tooling: source maps / browserify / node 
 - channels
 - react macros 
