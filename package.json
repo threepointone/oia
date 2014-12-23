@@ -1,12 +1,14 @@
 {
   "name": "oia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "it's a lisp.",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests"
   },
-  "bin": {"oia": "./bin/oia"},
+  "bin": {
+    "oia": "./bin/oia"
+  },
   "keywords": [
     "lisp",
     "immutable",
