@@ -49,6 +49,6 @@ future
 
 tests
 
- - 50 passing
- - 2 pending
- - 2 failing
+- 50 passing
+- 2 pending
+- 2 failing
