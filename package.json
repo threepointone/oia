@@ -1,7 +1,7 @@
 {
   "name": "oia",
   "version": "1.0.1",
-  "description": "it's a lisp.",
+  "description": "wip",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests"
@@ -11,8 +11,7 @@
   },
   "keywords": [
     "lisp",
-    "immutable",
-    "sweet-macros"
+    "immutable"
   ],
   "author": "Sunil Pai <threepointone@gmail.com>",
   "license": "MIT",
