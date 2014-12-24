@@ -317,12 +317,6 @@ macro _sexpr {
     }
   }
 
-  rule { (yield $sexprs ...) } => {
-    yield ($sexprs ...)
-  }
-
-
-
   rule { (if $cond $sthen $selse) } => {
     (function () {
       if (_sexpr (lets [truthy] (truthy $cond))) {
@@ -579,6 +573,11 @@ macro _sexpr {
 }
 
 macro _return_sexprs {
+
+  rule { (yield $sexprs ...) } => {
+    yield _sexprs ($sexprs ...)
+  }
+  
   rule { ($sexpr) } => {
     return _sexpr $sexpr
   }
