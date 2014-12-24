@@ -32,7 +32,6 @@ kinda works
 - destructuring 
 - :keywords
 - transducers (via transducers.js)
-- generators(!)
 - exception handling 
 - chaining 
 
@@ -41,6 +40,8 @@ in progress
 - tooling: source maps / browserify / node 
 - channels
 - react macros 
+- generators
+
 
 future
 

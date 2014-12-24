@@ -95,7 +95,6 @@ macro _x {
 //   }
 // }
 
-
 macro _count {
   case { $m ($x(,) ...) } => {
     var n = #{$x ...}.length;
@@ -161,6 +160,13 @@ macro _destr {
     var $a = $v;
   }
 }
+
+macro _def{
+  rule { ($x:ident $sexpr) } => {
+    var $x = _sexpr $sexpr;
+  }  
+}
+
 
 macro _let {
   rule { ([$k $v $rest ...] $sexprs ...) } => {
@@ -373,6 +379,10 @@ macro _sexpr {
     (function () {
       _let ([$bindings ...] $sexprs ...)
     }.call(this))
+  }
+
+  rule { (def $x $sexpr) } => {
+    _def ($x $sexpr)
   }
 
   rule { (letc [$bindings ...] $sexprs ...) } => {
