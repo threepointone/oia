@@ -1,5 +1,5 @@
 oia(do
-    // oia syntax in few sentences:
+  // oia syntax in few sentences:
   // ---
   // 
   // 
