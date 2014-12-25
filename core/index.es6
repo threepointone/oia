@@ -19,6 +19,8 @@ List.prototype[transducers.protocols.transformer] = {
     return list.push(x);
   }
 };
+// and to maps
+// todo
 
 var has = {}.hasOwnProperty;
 
