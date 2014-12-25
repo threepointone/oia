@@ -1,8 +1,8 @@
 *WORK IN PROGRESS*
 
 
-oia
----
+![oia](http://i.imgur.com/ZDqVxDn.png)
+
 *pronounced 'eeya'*
 ```lisp
 oia( 
