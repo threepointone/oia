@@ -317,11 +317,11 @@ macro _sexpr {
     }.call(this))
   }
 
-  rule { (gn [$args ...] $sexprs ...) } => {
-    function* ($args(,)...){
-      _return_sexprs ($sexprs ...)
-    }
-  }
+  // rule { (gn [$args ...] $sexprs ...) } => {
+  //   function* ($args(,)...){
+  //     _return_sexprs ($sexprs ...)
+  //   }
+  // }
 
   rule { (if $cond $sthen $selse) } => {
     (function () {
@@ -584,9 +584,9 @@ macro _sexpr {
 
 macro _return_sexprs {
 
-  rule { (yield $sexprs ...) } => {
-    yield _sexprs ($sexprs ...)
-  }
+  // rule { (yield $sexprs ...) } => {
+  //   yield _sexprs ($sexprs ...)
+  // }
   
   rule { ($sexpr) } => {
     return _sexpr $sexpr

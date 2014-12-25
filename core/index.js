@@ -30,8 +30,10 @@ var Map = require('immutable').Map;
 var is = require('immutable').is;
 
 
+
 var transducers = require("transducers.js");
 
+// attach transformer protocol to immutable lists.
 List.prototype[transducers.protocols.transformer] = {
   init: function () {
     return List().asMutable();
@@ -179,12 +181,12 @@ function keyword(str) {
 
     extend(_keywords_[str], {
       toString: function () {
-        return str;
+        return ":" + str;
       },
-      valueOf: function () {
-        return ("::" + str);
-      },
-      isKeyword: true
+      isKeyword: true,
+      inspect: function () {
+        return ":" + str;
+      }
     });
   }
   return _keywords_[str];
