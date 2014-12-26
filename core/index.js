@@ -19,7 +19,9 @@ exports.prn = prn;
 exports.str = str;
 exports.list = list;
 exports.hash_map = hash_map;
+exports.set = set;
 exports.keyword = keyword;
+exports.struct = struct;
 exports.inc = inc;
 exports.dec = dec;
 exports.first = first;
@@ -27,6 +29,7 @@ exports.rest = rest;
 exports.get = get;
 var List = require('immutable').List;
 var Map = require('immutable').Map;
+var Set = require('immutable').Set;
 var is = require('immutable').is;
 
 
@@ -173,6 +176,10 @@ function hash_map() {
   return Map(arr);
 }
 
+function set() {
+  return Set(arguments);
+}
+
 var _keywords_ = {};
 
 function keyword(str) {
@@ -196,10 +203,15 @@ function keyword(str) {
 
 
 
+
+
 // transducers? capital idea.
 
 extend(exports, transducers);
 
+function struct() {
+  return require("immstruct").apply(null, arguments);
+}
 
 function inc(x) {
   return x + 1;

@@ -765,8 +765,7 @@ macro oia {
       'add', 'sub', 'mul', 'div', 'mod', 
       'lt', 'gt', 'leq', 'geq', 
       'prn', 'str', 
-      'list', 'hash_map', 'keyword',
-
+      'keyword', 'list', 'hash_map', 'set', 'struct',
       'inc', 'dec', 'get', 'first', 'rest',
 
       // transducers
@@ -806,5 +805,3 @@ macro oia {
 
 
 export oia;
-
-

@@ -31,7 +31,7 @@ kinda works
 - lisp-ish
 - forked from [ki](http://ki-lang.org)
 - js interop / macros (via [sweet.js](http://sweetjs.org/))
-- immutable sequences, lists, maps, sets, cursors (via [immutable](https://facebook.github.io/immutable-js/))
+- immutable sequences, lists, maps, sets, cursors (via [immutable](https://facebook.github.io/immutable-js/) & [immstruct](https://github.com/omniscientjs/immstruct))
 - lexical scoping
 - loop /recur
 - destructuring 

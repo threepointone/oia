@@ -2,7 +2,7 @@
 
 //boolean
 
-import {List, Map, is} from 'immutable';
+import {List, Map, Set, is} from 'immutable';
 
 
 var transducers = require('transducers.js');
@@ -155,6 +155,10 @@ export function hash_map() {
 	return Map(arr);
 }
 
+export function set(){
+	return Set(arguments);
+}
+
 var _keywords_ = {};
 
 export function keyword(str) {
@@ -173,10 +177,15 @@ export function keyword(str) {
 
 
 
+
+
 // transducers? capital idea.
 
 extend(exports, transducers);
 
+export function struct(){
+	return require('immstruct').apply(null, arguments);
+}
 
 // some common stuff
 

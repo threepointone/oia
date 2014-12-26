@@ -37,9 +37,11 @@ oia(do
   // some useful ones - 
   // prn - logs to your console
   // str - string concatenation
+  // add, sub, mul, div, inc, dec,  - arithmetic
+  // eq, neq, gt, lt, leq, geq - for comparing values
 
 
-  // oia comes with a number of useful primitive data structures 
+  // oia comes with primitive data structures 
 
   (prn 
     :number 123
@@ -52,7 +54,8 @@ oia(do
   (prn (str "The secret word is " (add 1 3 4 "oia")))  
   //> The secret word is 8oia
 
-  // []/{}/[$]/{$} lists/maps/arrays/objects
+  // oia also has collection types - lists / maps / arrays / objects
+  // [] / {} / [$] / {$} 
   
   (prn [1 2 3 4])         // immutable list
   (prn {:x 1 :y 2})        // immutable map
@@ -99,6 +102,8 @@ oia(do
     [1 2] :onetwo 
     [3 4] :threefour } ]
       (prn (get complex [3 4])))
+
+  // oia also comes with 
   //> :threefour
 
   // read more at https://facebook.github.io/immutable-js/
@@ -156,10 +161,10 @@ oia(do
 
   // anonymous functions work as expected
 
-  (prn(map [1 2 3 4 5] (fn [x] (add (mul x 2) 1))))  
+  (prn (map [1 2 3 4 5] (fn [x] (add (mul x 2) 1))))  
   //>  List [ 3, 5, 7, 9, 11 ]
   
-  (prn(map [1 2 3 4 5] (fn [x] (js 3*x - 1))))      
+  (prn (map [1 2 3 4 5] (fn [x] (js 3*x - 1))))      
   //> List [ 2, 5, 8, 11, 14 ]
 
 
@@ -177,11 +182,15 @@ oia(do
   
   // multimethods let you be polymorphic, based on the return value of another function on given arguments
   
-  (multi divider (fn [x] (mod x 2)))
-  (method divider 1 [x](prn x 'isOdd'))
-  (method divider 0 [x](prn x 'isEven'))
+  (multi check 
+    (fn [x] (mod x 2)))
+  
+  (method check 1 [x]
+    (prn x 'isOdd'))
+  (method check 0 [x]
+    (prn x 'isEven'))
 
-  (divider 1827)
+  (check 1827)
   //> 1827 isOdd
 
   
@@ -278,7 +287,3 @@ oia(do
 // this is a regular javascript file, so you can write regular js here and it'll still work. 
 
 console.log('are you serious', Math.random()*1000);
-
-
-
-
