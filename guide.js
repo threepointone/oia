@@ -129,8 +129,8 @@ oia(do
 
   // can do arity based polymorphism.
   (def greet (fn 
-         ([a] (str "Hello " a))
-         ([a b] (str "There " a " " b))))
+   ([a] (str "Hello " a))
+   ([a b] (str "There " a " " b))))
   
   (prn (greet 'oia'))  // Hello oia
   (prn (greet 1 2))    // There 1 2

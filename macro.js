@@ -441,31 +441,32 @@ macro _sexpr {
     _sexpr $fn.bind($obj)
   }
 
-  // rule { (defmulti $n:ident $dispatch_fn) } => {
-  //   _sexpr 
-  //      (defn $n [] 
-  //       (js
-  //        if ($n._oia_methods === undefined || $n._oia_methods.length == 0) {
-  //          return undefined;
-  //        }
-  //        var dispatch_fn = _sexpr $dispatch_fn;
-  //        for (var i=0; i<$n._oia_methods.length; i++) {
-  //          var dispatch_value = $n._oia_methods[i][0];
-  //          var fn = $n._oia_methods[i][1];
-  //          if (equals(dispatch_fn.apply(this,arguments),dispatch_value)) {
-  //            return fn.apply(this,arguments);
-  //          }
-  //        }) nil)
-  // }
+  rule { (multi $n:ident $dispatch_fn) } => {
+    _sexpr 
+       (fn $n [] 
+        (js
+          var _ = require('oia');
+         if ($n._oia_methods === undefined || $n._oia_methods.length == 0) {
+           return undefined;
+         }
+         var dispatch_fn = _sexpr $dispatch_fn;
+         for (var i=0; i<$n._oia_methods.length; i++) {
+           var dispatch_value = $n._oia_methods[i][0];
+           var fn = $n._oia_methods[i][1];
+           if (_.eq(dispatch_fn.apply(this,arguments),dispatch_value)) {
+             return fn.apply(this,arguments);
+           }
+         }) nil)
+  }
  
-  // rule { (defmethod $n:ident $dispatch_val [$args ...] $sexprs ...) } => {
-  //   (function () {
-  //     if ($n._oia_methods === undefined) {
-  //       $n._oia_methods = [];
-  //     }
-  //     $n._oia_methods.push([_sexpr $dispatch_val,_sexpr (fn [$args ...] $sexprs ...)])
-  //   }())
-  // }
+  rule { (method $n:ident $dispatch_val [$args ...] $sexprs ...) } => {
+    (function () {
+      if ($n._oia_methods === undefined) {
+        $n._oia_methods = [];
+      }
+      $n._oia_methods.push([_sexpr $dispatch_val,_sexpr (fn [$args ...] $sexprs ...)])
+    }())
+  }
 
   rule { (threadf $v ($[.]$fn $args ...)) } => {
     _sexpr (.$fn $v $args ...)
