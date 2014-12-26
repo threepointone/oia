@@ -50,7 +50,7 @@ in progress
 
 
 future
-- namespaces
+- repl
 - macros
 - pattern matching 
 
