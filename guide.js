@@ -127,6 +127,8 @@ oia(do
   //> List [ 2, 5, 8, 11, 14 ]
 
 
+  // @todo fnth - function bound to given scope 
+
   // can do arity based polymorphism.
   (def greet (fn 
    ([a] (str "Hello " a))
@@ -136,8 +138,16 @@ oia(do
   (prn (greet 1 2))    // There 1 2
   
 
-  // @todo fnth - function bound to given scope 
+  
   // @todo multimethods
+
+  // multimethods let you be polymorphic, based on the return value of another function on given arguments
+  (multi divider (fn [x] (mod x 2)))
+  (method divider 1 [x](prn x 'isOdd'))
+  (method divider 0 [x](prn x 'isEven'))
+
+  (divider 1827)
+
 
 
   // conditionals / branching
