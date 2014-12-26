@@ -14,7 +14,7 @@ oia(do
       (take 10)))
   
   (prn (seq (range 500) xf)))
-  
+
   //> [ 60, 66, 72, 78, 84, 90, 96, 102, 108, 114 ]
 ```
 
@@ -55,6 +55,6 @@ future
 
 tests
 
-- 50 passing
+- 51 passing
 - 2 pending
-- 2 failing
+- 1 failing
