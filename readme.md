@@ -27,6 +27,7 @@ why?
 
 kinda works
 - [test suite](https://github.com/threepointone/oic/blob/master/tests.js)
+- [user guide](https://github.com/threepointone/oia/blob/master/guide.js)
 - lisp-ish
 - forked from [ki](http://ki-lang.org)
 - js interop / macros (via sweet.js)
