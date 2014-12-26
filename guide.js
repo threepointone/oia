@@ -137,10 +137,7 @@ oia(do
   (prn (greet 'oia'))  // Hello oia
   (prn (greet 1 2))    // There 1 2
   
-
   
-  // @todo multimethods
-
   // multimethods let you be polymorphic, based on the return value of another function on given arguments
   (multi divider (fn [x] (mod x 2)))
   (method divider 1 [x](prn x 'isOdd'))
