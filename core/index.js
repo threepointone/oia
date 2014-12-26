@@ -190,7 +190,7 @@ function keyword(str) {
 
     extend(_keywords_[str], {
       toString: function () {
-        return ":" + str;
+        return str;
       },
       isKeyword: true,
       inspect: function () {

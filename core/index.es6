@@ -167,7 +167,7 @@ export function keyword(str) {
 		_keywords_[str] = o => !o ? _keywords_[str] : (o.get ? o.get(_keywords_[str]) : o[str])
 		
 		extend(_keywords_[str], {
-			toString : () => ':' + str,
+			toString : () => str,
 			isKeyword : true,
 			inspect: () => ':' + str
 		});		
