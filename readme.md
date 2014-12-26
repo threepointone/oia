@@ -31,12 +31,12 @@ kinda works
 - lisp-ish
 - forked from [ki](http://ki-lang.org)
 - js interop / macros (via [sweet.js](http://sweetjs.org/))
-- immutable sequences, lists, maps, sets, cursors (via (immutable)[https://facebook.github.io/immutable-js/])
+- immutable sequences, lists, maps, sets, cursors (via [immutable](https://facebook.github.io/immutable-js/))
 - lexical scoping
 - loop /recur
 - destructuring 
 - :keywords
-- transducers (via (transducers.js)[https://github.com/jlongster/transducers.js])
+- transducers (via [transducers.js](https://github.com/jlongster/transducers.js))
 - exception handling 
 - chaining 
 - multimethods
