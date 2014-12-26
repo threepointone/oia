@@ -102,8 +102,7 @@ oia(do
     [1 2] :onetwo 
     [3 4] :threefour } ]
       (prn (get complex [3 4])))
-
-  // oia also comes with 
+  
   //> :threefour
 
   // read more at https://facebook.github.io/immutable-js/
