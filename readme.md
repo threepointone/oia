@@ -18,14 +18,15 @@ oia(do
   //> [ 60, 66, 72, 78, 84, 90, 96, 102, 108, 114 ]
 ```
 
-why? 
-
+why?
+---
 - js interop
 - immutable + transducers + channels 
 - ui components
 - tooling
 
 kinda works
+---
 - [test suite](https://github.com/threepointone/oic/blob/master/tests.js)
 - [user guide](https://github.com/threepointone/oia/blob/master/guide.js)
 - lisp-ish
@@ -42,7 +43,7 @@ kinda works
 - multimethods
 
 in progress 
-
+---
 - tooling: source maps / browserify / node 
 - channels
 - react macros 
@@ -50,12 +51,7 @@ in progress
 
 
 future
+---
 - repl
 - macros
 - pattern matching 
-
-tests
-
-- 51 passing
-- 2 pending
-- 1 failing
