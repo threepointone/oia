@@ -2,30 +2,33 @@ oia(do
   // oia syntax in few sentences:
   // ---
   // 
+  //    1. consider this function call - 
   // 
-  // 1. consider this function call - 
+  //      f(x, y)
   // 
-  //   f(x, y)
+  //    lose the commas -
   // 
-  // lose the commas -
+  //      f(x y)
   // 
-  //   f(x y)
+  //    now move the bracket to *outside* the function name 
   // 
-  // now move the bracket to *outside* the function name 
+  //      (f x y)
   // 
-  //   (f x y)
   // 
-  // 2. arrays and objects look familiar
+  //    2. arrays and objects look familiar
   // 
-  //   {:x 123 :y 'abcde' :z { :a 'turn down' :b 'for what'}}
+  //      [1 3 'bdf' {:whatwhat true}]
   // 
-  //   [1 3 'bdf' {:whatwhat true}]
+  //      {:x 123 :y 'abcde' :z { :a 'turn down' :b 'for what'}}
   // 
-  // 3. dot notation helps you reference stuff in (js) objects
   // 
-  //   (.log window.console 'hello there!')
+  //    3. dot notation helps you reference stuff in (js) objects
   // 
-  // now you can read oia.
+  //      (.log window.console 'hello there!')
+  // 
+  // 
+  // 
+  //    now you can read oia.
   // ---
 
 
@@ -46,13 +49,10 @@ oia(do
     :booleans true false)
 
 
-  (prn (str "The secret word is " (add 1 3 4 "oia")))  //> The secret word is 8oia
-
-  
-  // the core 'macros', aka code generators are - 
+  (prn (str "The secret word is " (add 1 3 4 "oia")))  
+  //> The secret word is 8oia
 
   // []/{}/[$]/{$} lists/maps/arrays/objects
-
   
   (prn [1 2 3 4])         // immutable list
   (prn {:x 1 :y 2})        // immutable map
@@ -60,6 +60,7 @@ oia(do
   (prn {$ x 1 y 2 z 3})    // js object
   
   // you can nest data structures
+
   (prn [
     :a :b :c 
     {:some :thing 
@@ -71,6 +72,7 @@ oia(do
   // @todo - sets
 
   // btw, keywords are awesome little bits that evaluate to themselves 
+  
   (prn (eq :a :a))
 
   // use them as keys for objects or maps 
@@ -81,10 +83,9 @@ oia(do
       (prn x y))
 
   // use can also use keywords as functions on maps/objects to retrieve values
+  
   (let [ x {:a 123 :b 'abracadabra'} ]
       (prn (:a x)))  
-
-  // @todo maps can have any key
 
   // def - equivalent to saying `var`. creates the binding in the *current* execution context.
 
@@ -108,6 +109,7 @@ oia(do
   // @todo - destructuring
 
   // lets - like let, but pulls symbols as keys from a js object. 
+  
   (lets [join dirname] (require 'path') 
     (prn (join (dirname '/some/path/to/file.nope') 'somefile.yes')))
 
@@ -130,6 +132,7 @@ oia(do
   // @todo fnth - function bound to given scope 
 
   // can do arity based polymorphism.
+  
   (def greet (fn 
    ([a] (str "Hello " a))
    ([a b] (str "There " a " " b))))
@@ -139,6 +142,7 @@ oia(do
   
   
   // multimethods let you be polymorphic, based on the return value of another function on given arguments
+  
   (multi divider (fn [x] (mod x 2)))
   (method divider 1 [x](prn x 'isOdd'))
   (method divider 0 [x](prn x 'isEven'))
@@ -146,8 +150,14 @@ oia(do
   (divider 1827)
   //> 1827 isOdd
 
+  
+  // and / or works as expected 
+  
+  (prn (and true false))  //> false
+  (prn (or true false))    //> true
 
   // conditionals / branching
+  
   (prn (if true 'this should print' 'this won\'t print'))  
   //> this should print
   
@@ -167,9 +177,6 @@ oia(do
   // cond
 
   
-  // and / or works as expected 
-  (prn (and true false))  //> false
-  (prn (or true false))    //> true
 
   // do lets you eval a number of expressions, returning the last one.
   // just like this whole doc!
@@ -180,6 +187,7 @@ oia(do
 
   
   // threadf lets you pass a value as the first argument through a series of computations 
+  
   (prn (let [a 1] (threadf a inc inc inc inc dec inc)))  //> 5
 
   // @todo threadl chain doto
@@ -206,8 +214,11 @@ oia(do
   //>  Map { :x: 123, :y: "abc", :z: "here" }
 
   // equality on immutable data structures is by value, not by reference  
-  (prn (eq {:one 1 :two "2"} {:one 1 :two "2"}))  //> true
-  (prn (eq {:one 1 :two "2"} {:two "2" :one 1}))  //> true
+  
+  (prn (eq {:one 1 :two "2"} {:one 1 :two "2"}))  
+  //> true
+  (prn (eq {:one 1 :two "2"} {:two "2" :one 1}))  
+  //> true
 
   // maps can have complex keys
   (let [ complex { 
@@ -223,10 +234,20 @@ oia(do
   // so you can do all the stuff you're used to
 
   (prn (map [0 1 2 3 4 5 6 7 8 9] inc))
+  //> List [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
   (prn (filter (range 10) (fn[x] (eq(mod x 2) 0))))
+  //> [ 0, 2, 4, 6, 8 ]
 
-  (prn (into [] (fn[x] x) (range 10)))
+  (def xf 
+    (compose 
+      (drop 20)
+      (map (fn [x] (mul x 3))) 
+      (filter (fn [x] (eq 0 (mod x 2)))) 
+      (take 10)))
+  
+  (prn (into [] xf (range 500)))
+  //> List [ 60, 66, 72, 78, 84, 90, 96, 102, 108, 114 ]
 
   // read more at https://github.com/jlongster/transducers.js
 
@@ -241,6 +262,8 @@ oia(do
       (prn e))
     (finally 
       (prn 'done')))
+  //> [Error: Oops]
+  //> done
 
 
   // @todo - atoms / cursors
