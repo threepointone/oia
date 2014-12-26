@@ -51,14 +51,12 @@ kinda works
 
 in progress 
 ---
-- tooling: source maps / browserify / node 
-- channels
-- react macros 
-- generators
-
+- tooling: bin / source maps / browserify / repl
+- macros
 
 future
 ---
-- repl
-- macros
+- generators
+- channels
+- react macros 
 - pattern matching 
