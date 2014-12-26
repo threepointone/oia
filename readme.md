@@ -13,8 +13,8 @@ oia(do
       (filter (fn [x] (eq 0 (mod x 2)))) 
       (take 10)))
   
-
   (prn (seq (range 500) xf)))
+  
   //> [ 60, 66, 72, 78, 84, 90, 96, 102, 108, 114 ]
 ```
 
