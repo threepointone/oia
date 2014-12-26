@@ -18,6 +18,13 @@ oia(do
   //> [ 60, 66, 72, 78, 84, 90, 96, 102, 108, 114 ]
 ```
 
+usage
+---
+```
+npm install oia -g
+oia script.js | node
+```
+
 why?
 ---
 - js interop
