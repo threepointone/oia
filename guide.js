@@ -69,6 +69,40 @@ oia(do
     }])
   //> List [ :a, :b, :c, Map { :some: :thing, :what: [object Object], omg: :an,array } ]
 
+
+  // immutable data structures can't be modified once they're made 
+  // their methods return entirely new instances 
+
+  (let [x ['some' 'strings' 'and' 'stuff'] 
+        y (.push x 'here')]
+    (prn x)
+    (prn y))
+  //>  List [ "some", "strings", "and", "stuff" ]
+  //>  List [ "some", "strings", "and", "stuff", "here" ]
+
+  (let [x {:x 123 :y 'abc'} 
+        y (.set x :z 'here')]
+    (prn x)
+    (prn y))
+  //>  Map { :x: 123, :y: "abc" }
+  //>  Map { :x: 123, :y: "abc", :z: "here" }
+
+  // equality on immutable data structures is by value, not by reference  
+  
+  (prn (eq {:one 1 :two "2"} {:one 1 :two "2"}))  
+  //> true
+  (prn (eq {:one 1 :two "2"} {:two "2" :one 1}))  
+  //> true
+
+  // maps can have complex keys
+  (let [ complex { 
+    [1 2] :onetwo 
+    [3 4] :threefour } ]
+      (prn (get complex [3 4])))
+  //> :threefour
+
+  // read more at https://facebook.github.io/immutable-js/
+
   // @todo - sets
 
   // btw, keywords are awesome little bits that evaluate to themselves 
@@ -196,38 +230,6 @@ oia(do
   // @todo keys vals
 
 
-  // immutable data structures can't be modified once they're made 
-  // their methods return entirely new instances 
-
-  (let [x ['some' 'strings' 'and' 'stuff'] 
-        y (.push x 'here')]
-    (prn x)
-    (prn y))
-  //>  List [ "some", "strings", "and", "stuff" ]
-  //>  List [ "some", "strings", "and", "stuff", "here" ]
-
-  (let [x {:x 123 :y 'abc'} 
-        y (.set x :z 'here')]
-    (prn x)
-    (prn y))
-  //>  Map { :x: 123, :y: "abc" }
-  //>  Map { :x: 123, :y: "abc", :z: "here" }
-
-  // equality on immutable data structures is by value, not by reference  
-  
-  (prn (eq {:one 1 :two "2"} {:one 1 :two "2"}))  
-  //> true
-  (prn (eq {:one 1 :two "2"} {:two "2" :one 1}))  
-  //> true
-
-  // maps can have complex keys
-  (let [ complex { 
-    [1 2] :onetwo 
-    [3 4] :threefour } ]
-      (prn (get complex [3 4])))
-  //> :threefour
-
-  // read more at https://facebook.github.io/immutable-js/
 
   // map / filter / reduce
   // oia imports all of transducers.js, and it's been configured to work with oia
