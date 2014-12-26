@@ -144,7 +144,7 @@ oia(do
   (method divider 0 [x](prn x 'isEven'))
 
   (divider 1827)
-
+  //> 1827 isOdd
 
 
   // conditionals / branching
