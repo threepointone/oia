@@ -8,6 +8,7 @@ var fs = require('fs'),
 
 module.exports = function(src, options){
 	return sweet.compile(src, {
-		modules: [sweet.loadModule(macro)]
+		modules: [sweet.loadModule(macro)],
+		readableNames: true
 	});
 }
