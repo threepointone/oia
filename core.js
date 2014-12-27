@@ -228,6 +228,6 @@ function rest(x) {
   return x.rest ? x.rest() : slice.call(x, 1);
 }
 
-function get(v, k) {
-  return v.get ? v.get(k) : v[k.isKeyword ? k.toString() : k];
+function get(v, k, def) {
+  return v.get ? v.get(k) : v[k.isKeyword ? k.toString() : k] || def;
 }

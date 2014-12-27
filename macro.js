@@ -409,6 +409,13 @@ macro _sexpr {
     }.call(this))
   }
 
+  // a sledge hammer to get stuff done. sigh.
+  rule { (dotimes $i $sexprs ...) } => {
+    for(var i=0; i< $i; i++){
+      _sexprs ($sexprs ...)
+    }    
+  }
+
   
   rule { (while $cond $sexpr) } => {
     // (function () {
