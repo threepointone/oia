@@ -49,8 +49,7 @@ kinda works
 - exception handling 
 - chaining 
 - multimethods
-- generators
-- channels
+- generators / channels ([example](https://gist.github.com/threepointone/eee1972ad47c4a10b3a0))
 
 in progress 
 ---
