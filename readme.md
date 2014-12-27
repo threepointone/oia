@@ -34,6 +34,7 @@ why?
 
 kinda works
 ---
+- [working repl](http://npmjs.com/package/oiarepl)
 - [test suite](https://github.com/threepointone/oic/blob/master/tests.js)
 - [user guide](https://github.com/threepointone/oia/blob/master/guide.js)
 - lisp-ish
