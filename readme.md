@@ -49,6 +49,8 @@ kinda works
 - exception handling 
 - chaining 
 - multimethods
+- generators
+- channels
 
 in progress 
 ---
@@ -57,7 +59,5 @@ in progress
 
 future
 ---
-- generators
-- channels
 - react macros 
 - pattern matching 
