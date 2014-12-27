@@ -1,6 +1,3 @@
-*WORK IN PROGRESS*
-
-
 ![oia](http://i.imgur.com/ZDqVxDn.png)
 
 *pronounced 'eeya'*
