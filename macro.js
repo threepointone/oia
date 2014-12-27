@@ -317,11 +317,19 @@ macro _sexpr {
     }.call(this))
   }
 
-  // rule { (gn [$args ...] $sexprs ...) } => {
-  //   function* ($args(,)...){
-  //     _return_sexprs ($sexprs ...)
-  //   }
-  // }
+  rule { (gen [$args ...] $sexprs ...) } => {
+    function* ($args(,)...){
+      _yield_sexprs ($sexprs ...); 
+    }
+  }
+
+  rule { (yieldall $sexpr) } => {
+    var info, g = _sexpr $sexpr;
+
+    while (!(info = g.next()).done) {
+      yield(info.value);
+    }
+  }
 
   rule { (if $cond $sthen $selse) } => {
     (function () {
@@ -401,14 +409,15 @@ macro _sexpr {
     }.call(this))
   }
 
+  
   rule { (while $cond $sexpr) } => {
-    (function () {
+    // (function () {
       while (_sexpr (lets [truthy] (truthy $cond))) {
         _sexpr $sexpr;
-      }
-    }.call(this))
+      };
+    // }.call(this))
   }
-
+  
   rule { (loop [$bindings ...] $sexprs ...) } => {
     (function () {
       var res = {};
@@ -421,6 +430,8 @@ macro _sexpr {
       return res;
     }.call(this))
   }
+
+
 
   rule { (recur $args ...) } => {
     {_oia_recur: true, _oia_vals: [_args ($args ...)]}
@@ -589,11 +600,25 @@ macro _return_sexprs {
   //   yield _sexprs ($sexprs ...)
   // }
   
+
   rule { ($sexpr) } => {
     return _sexpr $sexpr
   }
+  
   rule { ($sexpr $sexprs ...) } => {
     _sexpr $sexpr; _return_sexprs ($sexprs ...)
+  }
+}
+
+
+macro _yield_sexprs {
+  
+  rule { ($sexpr) } => {
+    _sexpr $sexpr
+  }
+  
+  rule { ($sexpr $sexprs ...) } => {
+    _sexpr $sexpr; _yield_sexprs ($sexprs ...)
   }
 }
 
