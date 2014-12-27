@@ -570,11 +570,11 @@ macro _sexpr {
 
   
   rule { [$x ...] } => {
-    _sexpr (lets [list] (require 'oia') (list $x ...))  
+    _sexpr (lets [list] (list $x ...))  
   }
 
   rule { {$x ...} } => {
-    _sexpr (lets [hash_map] (require 'oia') (hash_map $x ...))
+    _sexpr (lets [hash_map] (hash_map $x ...))
   }
 
   rule { $x } => { 
@@ -607,16 +607,16 @@ macro _sexprs {
 }
 
 macro oia {
-  case { _ require $module as $name} => {
-    var module_name = unwrapSyntax(#{$module});
-    letstx $module_name = [makeValue(module_name,#{$module})];
-    return #{var $name = require($module_name);}
-  }
-  case { _ require $module} => {
-    var module_name = unwrapSyntax(#{$module});
-    letstx $module_name = [makeValue(module_name,#{$module})];
-    return #{var $module = require($module_name);}
-  }
+  // case { _ require $module as $name} => {
+  //   var module_name = unwrapSyntax(#{$module});
+  //   letstx $module_name = [makeValue(module_name,#{$module})];
+  //   return #{var $name = require($module_name);}
+  // }
+  // case { _ require $module} => {
+  //   var module_name = unwrapSyntax(#{$module});
+  //   letstx $module_name = [makeValue(module_name,#{$module})];
+  //   return #{var $module = require($module_name);}
+  // }
 
   case {_ macro ($x ...) ($y ...)} => {
     return #{};

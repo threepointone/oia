@@ -4,20 +4,15 @@ var opts = require('nomnom').parse();
 
 var sourcemaps = opts.sourcemaps, 
 	file = opts[0],
-	fs = require('fs'),
-	path = require('path'),
-	sweet = require('sweet.js');
-
-var macro = fs.readFileSync(path.join(__dirname,'../macro.js'), 'utf8');
+	compile = require('../compile'),
+	fs = require('fs');
 
 if(!file) {
 	throw new Error('usage: oia <file>')
 }
 
-var src = fs.readFileSync(path.join(file), 'utf8');
+var src = fs.readFileSync(file, 'utf8');
 
-var code = sweet.compile(src, {
-	modules: [sweet.loadModule(macro)]
-}).code;
+var code = compile(src).code;
 
 process.stdout.write(code + '\n')
