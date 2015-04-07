@@ -322,8 +322,14 @@ macro _sexpr {
       _yield_sexprs ($sexprs ...); 
     }
   }
+  rule { (gen $name:ident [$args ...] $sexprs ...) } => {
+    function* $name ($args(,)...){
+      _yield_sexprs ($sexprs ...); 
+    }
+  }
 
   rule { (yieldall $sexpr) } => {
+    // this should actually be a yield*)
     var info, g = _sexpr $sexpr;
 
     while (!(info = g.next()).done) {
@@ -417,10 +423,10 @@ macro _sexpr {
   }
 
   
-  rule { (while $cond $sexpr) } => {
+  rule { (while $cond $sexprs ...) } => {
     // (function () {
       while (_sexpr (lets [truthy] (truthy $cond))) {
-        _sexpr $sexpr;
+        _sexprs $sexprs ...;
       };
     // }.call(this))
   }

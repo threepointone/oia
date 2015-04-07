@@ -17,11 +17,11 @@
   "author": "Sunil Pai <threepointone@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "immstruct": "^1.2.1",
-    "immutable": "^3.4.0",
-    "js-csp": "^0.3.2",
+    "immstruct": "^1.4.0",
+    "immutable": "^3.7.1",
+    "js-csp": "^0.4.0",
     "nomnom": "^1.8.1",
-    "sweet.js": "^0.7.2",
+    "sweet.js": "^0.7.4",
     "transducers.js": "^0.2.3"
   },
   "devDependencies": {

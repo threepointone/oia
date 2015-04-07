@@ -83,7 +83,7 @@ oia(do
   //>  List [ "some", "strings", "and", "stuff" ]
   //>  List [ "some", "strings", "and", "stuff", "here" ]
 
-  (let [x {:x 123 :y 'abc'} 
+  (let [x {:x 123 :y "abc"} 
         y (.set x :z 'here')]
     (prn x)
     (prn y))
@@ -98,10 +98,12 @@ oia(do
   //> true
 
   // maps can have complex keys
-  (let [ complex { 
+  (def complex { 
     [1 2] :onetwo 
-    [3 4] :threefour } ]
-      (prn (get complex [3 4])))
+    [3 4] :threefour })
+  
+  (prn complex)
+  (prn (get complex [3 4]))
   
   //> :threefour
 
