@@ -1,6 +1,6 @@
 {
   "name": "oia",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "yet another lisp for js",
   "main": "index.js",
   "scripts": {
