@@ -37,16 +37,28 @@ var is = require('immutable').is;
 var transducers = require("transducers.js");
 
 // attach transformer protocol to immutable lists.
-List.prototype[transducers.protocols.transformer] = {
-  init: function () {
-    return List().asMutable();
-  },
-  result: function (list) {
-    return list.asImmutable();
-  },
-  step: function (list, x) {
-    return list.push(x);
-  }
+// List.prototype[transducers.protocols.transformer] = {
+//   init: function() {
+//     return List().asMutable();
+//   },
+//   result: function(list) {
+//     return list.asImmutable();
+//   },
+//   step: function(list, x) {
+//     return list.push(x);
+//   }
+// };
+
+List.prototype["@@transducer/init"] = function () {
+  return List().asMutable();
+};
+
+List.prototype["@@transducer/result"] = function (lst) {
+  return lst.asImmutable();
+};
+
+List.prototype["@@transducer/step"] = function (lst, x) {
+  return lst.push(x);
 };
 // and to maps
 // todo

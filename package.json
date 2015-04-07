@@ -22,7 +22,7 @@
     "js-csp": "^0.4.0",
     "nomnom": "^1.8.1",
     "sweet.js": "^0.7.4",
-    "transducers.js": "^0.2.3"
+    "transducers.js": "^0.3.1"
   },
   "devDependencies": {
     "6to5": "^1.15.0",
